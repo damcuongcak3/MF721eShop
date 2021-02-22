@@ -1,0 +1,36 @@
+button:hover {
+  cursor: pointer !important;
+}
+button {
+  width: 100%;
+  height: 100%;
+}
+.btn-reload {
+  background-color: #fff;
+  width: 100%;
+  height: 100%;
+  border-radius: 4px;
+}
+.btnDefault {
+  background-color: #cccccc;
+  border-radius: 3px;
+}
+.btnDialog {
+  color: #fff;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+}
+.btnConfirmDelete {
+  background-color: rgb(197, 59, 59);
+}
+.btnCfDelete {
+  width: 14px;
+  height: 100%;
+  background-color: rgb(197, 59, 59);
+  background-image: url("assets/content/img/common-icon.png");
+  background-repeat: no-repeat;
+  background-position: -4px -46px;
+  color: #fff;
+  margin-right: 5px;
+}

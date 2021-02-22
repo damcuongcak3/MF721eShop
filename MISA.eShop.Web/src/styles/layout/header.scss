@@ -1,0 +1,99 @@
+.logo {
+  width: 235px;
+  height: 100%;
+  background-color: #00577b;
+  background-image: url(/assets/content/img/Logo_Full_White.png);
+}
+.logo img {
+  width: 100%;
+  height: 100%;
+}
+.header {
+  display: flex;
+  height: 50px;
+}
+
+.sidebar {
+  width: 45px;
+  height: 100%;
+  margin-right: 10px;
+}
+.sidebar img {
+  width: 35px;
+  height: 35px;
+  margin-top: 10px;
+}
+
+.logocukcuk {
+  width: 100%;
+  height: 100%;
+}
+.logocukcuk img {
+  width: 160px;
+  height: 35px;
+  margin-top: 10px;
+  margin-right: 10px;
+}
+.header-account {
+  border: 1px solid #ccc;
+  position: relative;
+  display: flex;
+  width: calc(100% - 235px);
+}
+.dropdown {
+  border: 1px solid #ccc;
+  margin-right: 10px;
+  width: 250px;
+  height: 28px;
+}
+.avatar {
+  width: 30px;
+  height: 30px;
+  border: 1px solid #ccc;
+  background-image: url(/img/default-avatar.d40830f2.jpg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border-radius: 50%;
+}
+.dropdown-account {
+  border: none;
+  width: 80px;
+  height: 28px;
+  padding-left: 0px !important;
+}
+.user {
+  text-align: center;
+  display: flex;
+  height: 100%;
+  position: absolute;
+  right: 0px;
+  align-items: center;
+}
+.username {
+  line-height: 32px;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+.user img {
+  width: 30px;
+  height: 30px;
+}
+.iconcommon {
+  width: 45px;
+  height: 100%;
+}
+.icon-support {
+  background-image: url(assets/content/icon/ic_support.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  background-color: #00577b;
+}
+.icon-notification {
+  background: url(/img/common-icon.4aa2ddf5.png) no-repeat -93px -130px;
+  width: 40px;
+  height: 10px;
+  margin-left: 5px;
+  background-color: #ffffff;
+}

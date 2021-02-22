@@ -1,0 +1,77 @@
+table {
+  width: 100%;
+  text-align: left;
+  border-collapse: collapse;
+  border: 1px solid #ccc;
+  border-spacing: 10px;
+  table-layout: fixed;
+  overflow: scroll;
+}
+table th,
+td {
+  height: 40px;
+  overflow: hidden;
+}
+table th {
+  margin-right: 20px;
+  border-right: 1px solid #ccc;
+}
+tbody td {
+  overflow: hidden;
+  padding-left: 7px;
+  border-right: 1px solid #ccc;
+}
+tr {
+  border-bottom: 2px solid #e5e5e5;
+}
+th > select {
+  border-radius: 0px !important;
+}
+table tbody tr {
+  width: 100%;
+}
+table tbody tr:hover {
+  background-color: #d9d9d9;
+  cursor: pointer;
+}
+tbody tr:nth-child(even) {
+  background-color: #e9ebee;
+}
+
+tbody tr:nth-child(odd) {
+  background-color: #fff;
+}
+
+.filter {
+  height: 100% !important;
+  width: calc(100% - 40px);
+  margin-right: 2px;
+}
+
+.option {
+  border: 1px solid #ccc;
+  align-items: center;
+  width: 42px;
+  line-height: 41px;
+  text-decoration: none;
+  padding-left: 17px;
+  background-color: #fff;
+}
+.trTitle {
+  text-align: center;
+  height: 40px;
+  background-color: #e5e5e5;
+  border-bottom: none;
+}
+
+.trFilter {
+  height: 40px;
+  background-color: #e5e5e5;
+  border-bottom: none;
+}
+.btnOption {
+  width: 38px;
+  height: 38px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+}

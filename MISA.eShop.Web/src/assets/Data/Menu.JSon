@@ -1,0 +1,27 @@
+[
+    {
+        "title":"Tổng quan",
+        "img": "require('../assets/content/icon/dashboard.png')"
+    },
+    {
+        "title":"Báo cáo",
+        "img": "require('../assets/content/icon/report.png')"
+    },
+    {
+        "title":"Mua hàng",
+        "img": "require('../assets/content/icon/da shboard.png')"
+    },
+    {
+        "title":"Danh mục nhân viên",
+        "img": "require('../assets/content/icon/dic-employee.png')"
+    },
+    {
+        "title":"Thiết lập hệ thống",
+        "img": "require('../assets/content/icon/setting.png')"
+    },
+    {
+        "title":"Danh mục khách hàng",
+        "img": "require('../assets/content/icon/dic-employee.png')"
+    }
+
+]

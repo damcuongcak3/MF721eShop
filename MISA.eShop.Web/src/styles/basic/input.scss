@@ -1,0 +1,30 @@
+input[type="text"] {
+  height: 35px;
+  border: 1px solid #bbbbbb;
+  box-sizing: border-box !important;
+  padding-left: 10px;
+}
+input[type="textarea"] {
+  height: 90px;
+}
+input[type="date"] {
+  box-sizing: border-box !important;
+  border: 1px solid #bbbbbb;
+  height: 35px;
+  border: 1px solid #bbbbbb;
+  border-radius: 4px !important;
+  padding-left: 10px;
+}
+select {
+  box-sizing: border-box !important;
+  border: 1px solid #bbbbbb;
+  height: 35px;
+  border: 1px solid #bbbbbb;
+  border-radius: 4px !important;
+  padding-left: 10px;
+}
+textarea {
+  width: calc(100% - 100px);
+  border-color: #bbb;
+  border-radius: 3px;
+}

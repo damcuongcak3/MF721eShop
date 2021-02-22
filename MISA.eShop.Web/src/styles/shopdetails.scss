@@ -1,0 +1,149 @@
+.dialog-modal {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: black;
+  opacity: 0.4;
+}
+.content-dialog {
+  text-align: left;
+  position: fixed;
+  border-radius: 5px;
+  width: 700px;
+  height: 600px;
+  background-color: #fff;
+  left: calc(50% - 350px);
+  top: calc(50% - 300px);
+}
+.dialog-header {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  width: 100%;
+  position: relative;
+  height: 27px;
+  background-color: #ccc;
+  padding-left: 16px;
+  display: flex;
+  font-size: 18px;
+  align-items: center;
+}
+.dialog-header-icon {
+  position: absolute;
+  right: 5px;
+}
+.dialog-body {
+  margin-top: 15px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.dialog-body-avatar {
+  width: 30%;
+}
+.dialog-body-profile {
+  width: 70%;
+}
+.green-space {
+  margin-top: -10px;
+  height: 6px;
+  width: 110px;
+  background-color: #019160;
+  margin-bottom: 10px;
+}
+.infor-content {
+  display: flex;
+}
+.infor-left-column {
+  width: 50%;
+}
+.infor-right-column {
+  width: 50%;
+}
+.infor-text {
+  margin-bottom: 15px;
+  height: 50px;
+  display: grid;
+  margin-right: 10px;
+}
+.dialog-footer {
+  width: 100%;
+  height: 60px;
+  background-color: #fff;
+  position: absolute;
+  bottom: 0;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  align-items: center;
+  display: flex;
+  border-top: 1px solid #ccc;
+  float: right;
+  right: 0px;
+}
+.dialog-button {
+  position: absolute;
+  display: flex;
+  right: 10px;
+}
+.btn-footer {
+  width: 80px;
+  height: 35px;
+  margin-right: 10px;
+}
+.isHide {
+  display: none;
+}
+
+h3 {
+  text-align: left;
+}
+label {
+  margin-bottom: 5px;
+}
+span {
+  color: rgb(255, 0, 0);
+}
+.infor-content {
+  text-align: left;
+}
+.icon-save {
+  background-position: -330px -121px;
+}
+.icon-cancel {
+  background-position: -253px -119px;
+}
+.icon-savenew {
+  background-position: -29px -121px;
+}
+.btnSave {
+  background-color: #00577b;
+  border-color: #00577b;
+}
+.btnCancel {
+  border: none;
+  background-color: #fff;
+  color: #00577b;
+}
+.btnSaveNew {
+  background-color: #fff;
+  border-color: #00577b;
+  color: #00577b;
+}
+.shopDetails {
+  width: 100%;
+  align-items: center;
+  display: flex;
+  margin-bottom: 20px;
+}
+.shopDetailsColumn {
+  width: 50%;
+  display: flex;
+  align-items: center;
+}
+.columnRight {
+  position: absolute;
+  right: 20px;
+}
+.label {
+  width: 100px;
+}
