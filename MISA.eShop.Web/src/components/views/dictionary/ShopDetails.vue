@@ -1,11 +1,11 @@
 <template>
-    <div  class="dialog-detail" title="Thông tin nhân viên" :class="{ isHide: isHide }">
+    <div  class="dialog-detail" title="Thông tin nhân viên">
         <div class="dialog-modal"></div>
         <div class="content-dialog">
             <div class="dialog-header">
                 <div class="dialog-header-title">Thêm mới cửa hàng</div>
                 <div class="dialog-header-icon">
-                    <button tabindex="14" id="btnCancel" v-on:click="btnCancelOnClick">X</button>
+                    <button tabindex="14" id="btnCancel" v-on:click="close">X</button>
                 </div>
             </div>
             <div class="dialog-body">
@@ -13,28 +13,29 @@
                 <div class="shopDetails">
                     <div class="label" for="">Mã cửa hàng <Span>*</Span></div>
                     <input id="txtShopCode" name="ShopCode" ref="shopCode" tabindex="1" type="text" required
-                    v-model="newshop.ShopCode">
+                    :class="{'required': !validateInput}" 
+                    v-model="shopData.shopCode">
                 </div>
                 <div class="shopDetails">
                     <div class="label" for="">Tên cửa hàng <Span>*</Span></div>
-                    <input id="txtShopName"  name="ShopName" tabindex="2" type="text" required
-                    v-model="newshop.ShopName">
+                    <input id="txtShopName"  name="ShopName" ref="shopName" tabindex="2" type="text" required  
+                    v-model="shopData.shopName">
                 </div>
                 <div class="shopDetails">
                     <div class="label" for="">Địa chỉ <Span>*</Span></div>
-                    <textarea id="txtAddress" name="Address" tabindex="3" rows="8"
-                    v-model="newshop.Address"></textarea>
+                    <textarea id="txtAddress" name="Address" ref="address" tabindex="3" rows="8"
+                    v-model="shopData.address"></textarea>
                 </div>
                 <div class="shopDetails">
                     <div class="shopDetailsColumn">
                     <div class="label" for="">Số điện thoại</div>
                     <input tabindex="4" type="text"
-                    v-model="newshop.PhoneNumber">
+                    v-model="shopData.phoneNumber">
                     </div>
                      <div class="shopDetailsColumn">
                     <div class="label" for="">Mã số thuế</div>
                     <input tabindex="5" class="columnRight"  type="text"
-                    v-model="newshop.ShopTaxCode">
+                    v-model="shopData.shopTaxCode">
                     </div>
                 </div>
                 <div class="shopDetails">
@@ -80,13 +81,16 @@
             <div class="dialog-footer">
                 <div class="dialog-button">
                 <div class="btn-footer">
-                <button tabindex="11" id="btnSave" class="btnDialog btnSave" v-on:click="Confirm()"><div class="icon icon-save"></div>Lưu</button>
+                <button tabindex="11" id="btnSave" class="btnDialog btnSave" v-on:click="editConfirm()"><div class="icon icon-save"></div>Lưu</button>
                 </div>
                 <div class="btn-footer" style="width: 145px"> 
-                <button tabindex="12" id="btnSaveNew" class="btnDialog btnSaveNew" v-on:click="validateInput()"><div class="icon icon-savenew"></div>Lưu và thêm mới</button>
+                <button tabindex="12" id="btnSaveNew" class="btnDialog btnSaveNew" v-on:click="Confirm()"><div class="icon icon-savenew"></div>Lưu và thêm mới</button>
                 </div>
                 <div class="btn-footer"> 
-                <button tabindex="13" id="btnCancel" class="btnDialog btnCancel" v-on:click="btnCancelOnClick"><div class="icon icon-cancel"></div>Hủy bỏ</button>
+                <button tabindex="13" id="btnCancel" class="btnDialog btnCancel" v-on:click="close"><div class="icon icon-cancel"></div>Hủy bỏ</button>
+                </div>
+                <div class="btn-footer">
+                    <button v-on:click="checkRequired()">validaeteeee</button>
                 </div>
                 </div>
             </div>
@@ -98,17 +102,28 @@ import * as axios from "axios";
 export default {
     
     props: {
-        isHide: Boolean,
+        // isHide: Boolean,
         data: {
             type: Object,
             default: () => {},
         },
+        mode: String,
+        shopParentData: Object
+    },
+    mounted() {
+        if (this.mode === "EDIT") {
+            this.shopData = this.shopParentData;
+        }else{
+            this.focusInput();
+        }
     },
 
     methods: {
+        close() {
+            this.$emit('close');
+        },
     focusInput(){
         this.$refs.shopCode.focus();
-        console.log(this);
     },
     btnAddOnClick() {
       //this.isHide = false;
@@ -117,48 +132,69 @@ export default {
       this.$emit('closePopup',true)
       // this.isHide = true;
     },
+
+
     validateInput: function(){
         if (this.txtShopCode && this.txtShopName && this.txtAddress) {
-            this.errorMsg.push("");
             return true;
      }
-        this.errorMsg =[];
         if (!this.txtShopCode){
-            this.errorMsg.push("Mã cửa hàng không được phép trống!");
+            return false;
         }
         if(!this.txtShopName){
-            this.errorMsg.push("Tên cửa hàng không được phép để trống");
+            return false;
 
         }
         if(!this.txtAddress){
-            this.errorMsg.push("Địa chỉ cửa hàng không được phép để trống");
+            return false;
         }        
 
 
     },
-    Confirm : async function(){      
-      var confirm = false;
-      console.log(this.newshop);
+    Confirm : async function(){   
+      console.log(this.shopData);
+        var self = this;
+        try {
+            await axios.post('https://localhost:44333/api/v1/Shop', this.shopData)
+              .then(function (res) {
+                  console.log(res);
+                  alert("Thêm mới thành công");
+                  self.$emit("close"); 
+                  })
+              .catch(function (error) {   
+                  console.log(error);
+                  alert("Thêm mới không thành công");
+                  });
+            
+        } catch (error) {
+            console.log(error);
+        }
 
-      await axios.post('https://localhost:44333/api/v1/Shop', this.newshop)
-            .then(function (res) {
-             confirm = true;
-             console.log(res);
-        alert("Thêm mới thành công");
-
-            })
-            .catch(function (error) {   
-             confirm = false;
-             console.log(error);
-        alert("Thêm mới không thành công");
-
-            });
-           this.$emit("postNewShop", confirm); 
     },
+    editConfirm : async function(){
+        console.log(this.shopData);
+        var rowSelected = this.$el.querySelector('.trSelected')
+        if(!rowSelected){
+            alert("Bạn chưa chọn shop chỉnh sửa!")
+            this.$emit("close");
+        }
+        await axios.put('https://localhost:44333/api/v1/Shop', this.shopData)
+        .then(function(res){
+            console.log(res);
+            alert("Cập nhật thành công!");
+        })
+        .catch(function(error){
+            console.log(error);
+            alert("Cập nhật thất bại!");
+        })
+        this.$emit("update");
+    }
 
 },
 data() {
+
     return {
+        
         newshop: {
             ShopCode: "",
             ShopName: "",
@@ -167,6 +203,9 @@ data() {
             ShopTaxCode: "",
         },
         errorMsg:"",
+        shopData: {
+
+        }
         
     }
 }, 

@@ -9,7 +9,7 @@
                     <button class="btn btn-copy" id="btnCopy" @click="focusInput"><div class="icon icon-copy"></div>Nhân bản</button>
                 </div>
                 <div class="form-edit">
-                    <button class="btn btn-edit" id="btnEdit" @click="updateShop"><div class="icon icon-edit"></div>Sửa</button>
+                    <button class="btn btn-edit" id="btnEdit" @click="btnEditOnclick"><div class="icon icon-edit"></div>Sửa</button>
                 </div>
                 <div class="form-delete">
                   <button class="btn btn-delete" id="btnDelete" @click="show = !show"><div class="icon icon-delete"></div>Xóa</button>
@@ -85,14 +85,17 @@
               <option>50</option>
             </select>
             </div>
-  <ShopDetails ref="ShopDetails" 
-  @closePopup ="closePopup" 
-  :isHide ="isHideParent" 
-  @postNewShop="createCofirm" />
+  <ShopDetails ref="ShopDetails"
+    v-if="showDialogDetail"
+    :shopParentData="shopParentData"
+    @close="closeDialog"
+    @closePopup ="closePopup"
+    @update="getData" 
+    :mode="dialogMode"/>
   <DeleteDialog ref="DeleteDialog"
-  :active.sync="show" 
-  :shopParentData="shopParentData"
-  @deleted="deleteConfirm"
+    :active.sync="show" 
+    :shopParentData="shopParentData"
+    @deleted="deleteConfirm"
    />
 </div>
 </template>
@@ -118,7 +121,9 @@ export default {
         isHideParent: true,  
         shops: [],
         shop:{},
-        trSelected: {}
+        trSelected: {},
+        showDialogDetail: false,
+        dialogMode: null
       };
     },
   methods: {
@@ -126,16 +131,31 @@ export default {
       const response = await axios.get("https://localhost:44333/api/v1/Shop");     
       this.shops = response.data;
     },
+    closeDialog(){
+      this.showDialogDetail = false;
+      this.dialogMode = null;
+      this.getData();
+    },
       btnAddOnClick(){
-        this.isHideParent = false;
-
+        this.showDialogDetail = true;
+        this.dialogMode = 'ADD'; 
       },
       btnEditOnclick(){
-        this.isHideParent = false;
-
+        this.showDialogDetail = true;
+        this.dialogMode = 'EDIT'; 
+        var rowSelected = this.$el.querySelector('.trSelected')
+        if(!rowSelected){
+            alert("Bạn chưa chọn shop chỉnh sửa!")
+            this.showDialogDetail = false;
+        }
       },
       btnDeleteOnClick(){
         this.$refs.DeleteDialog.show();
+        var rowSelected = this.$el.querySelector('.trSelected')
+        if(!rowSelected){
+        alert("Bạn chưa chọn shop cần xóa!")
+        this.$refs.DeleteDialog.hide();
+        }
       },
       closePopup(value){
         this.isHideParent = value;
@@ -146,14 +166,8 @@ export default {
       rowSelected(shopId){
         this.rowSelected_el = shopId;
       },
-      createCofirm : async function(){
-        this.closePopup(true);
-        this.getData();
-        // var reloadData = this.getData();      
-        // reloadData.await;
-      },
       deleteConfirm: async function(){
-        alert("xóa thành công!");
+        alert("Xóa thành công!");
         this.show = false;
         this.getData();
       },
@@ -166,12 +180,11 @@ export default {
         var shopId = rowSelected.getAttribute('id-selected')
         try {
           var res = await axios.get(`https://localhost:44333/api/v1/Shop/${shopId}`)
-          this.shop = res.data;
           console.log(res.data)
         } catch (error) {
           console.log(error)
         }
-        this.isHideParent = false;
+        this.showDialogDetail = true;
     }
 
       

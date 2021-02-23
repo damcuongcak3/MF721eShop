@@ -38,11 +38,12 @@ props:{
             this.$emit("update:active", false);
         },
         deleteData(shopId){
+            var self = this;
             console.log(shopId);
             axios.delete('https://localhost:44333/api/v1/Shop?shopId='+shopId)
       .then(function(res){
           console.log(res);
-          this.$emit("deleted", true)
+          self.$emit("deleted")
       }).catch(function(error){
           console.log(error)
       })
