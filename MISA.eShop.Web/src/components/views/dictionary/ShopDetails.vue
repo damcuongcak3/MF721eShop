@@ -13,32 +13,35 @@
                 <div class="shopDetails">
                     <div class="label" for="">Mã cửa hàng <Span>*</Span></div>
                     <input id="txtShopCode" name="ShopCode" ref="shopCode" tabindex="1" type="text" required
-                    :class="{required :isActiveClassRequired}"
-                    v-model="shopData.shopCode">
+                    @blur="validateData('ShopCode')"
+                    :class="{required: isActiveClassRequired.ShopCode}"
+                    v-model="shopData.ShopCode">
                 </div>
                 <div class="shopDetails">
                     <div class="label" for="">Tên cửa hàng <Span>*</Span></div>
                     <input id="txtShopName"  name="ShopName" ref="shopName" tabindex="2" type="text" required
-                    :class="{required :isActiveClassRequired}"
-                    v-model="shopData.shopName">
+                    @blur="validateData('ShopName')"
+                    :class="{required :isActiveClassRequired.ShopName}"
+                    v-model="shopData.ShopName">
                 </div>
                 <div class="shopDetails">
                     <div class="label" for="">Địa chỉ <Span>*</Span></div>
                     <textarea id="txtAddress" name="Address" ref="address" tabindex="3" rows="8" required
                     style="resize:none"
-                    :class="{required :isActiveClassRequired}"
-                    v-model="shopData.address"></textarea>
+                    @blur="validateData('ShopName')"
+                    :class="{required :isActiveClassRequired.ShopName}"
+                    v-model="shopData.Address"></textarea>
                 </div>
                 <div class="shopDetails">
                     <div class="shopDetailsColumn">
                     <div class="label" for="">Số điện thoại</div>
                     <input tabindex="4" type="text"
-                    v-model="shopData.phoneNumber">
+                    v-model="shopData.PhoneNumber">
                     </div>
                      <div class="shopDetailsColumn">
                     <div class="label" for="">Mã số thuế</div>
                     <input tabindex="5" class="columnRight"  type="text"
-                    v-model="shopData.shopTaxCode">
+                    v-model="shopData.ShopTaxCode">
                     </div>
                 </div>
                 <div class="shopDetails">
@@ -104,6 +107,26 @@
 import * as axios from "axios";        
 export default {
     
+    data() {
+
+        return {
+            shopData: {
+                ShopCode: "",
+                ShopName: "",
+                Address: "",
+                PhoneNumber: "",
+                ShopTaxCode: "",
+            },
+            isActiveClassRequired: {
+                ShopCode: false,
+                ShopName: false,
+                Address: false
+            },
+
+            errorMsg:""
+            
+        }
+    }, 
     props: {
         // isHide: Boolean,
         mode: String,
@@ -130,6 +153,15 @@ export default {
     btnCancelOnClick() {
       this.$emit('closePopup',true)
       // this.isHide = true;
+    },
+    validateData(key) {
+        if (this.shopData[key] === null || this.shopData[key] === "") {
+            console.log(key)
+            console.log(this.shopData[key])
+            this.isActiveClassRequired[key] = true;
+        } else {
+            this.isActiveClassRequired[key] = false;
+        }
     },
   
 
@@ -200,26 +232,6 @@ export default {
     }
 
 },
-data() {
-
-    return {
-        
-        newshop: {
-            ShopCode: "",
-            ShopName: "",
-            Address: "",
-            PhoneNumber: "",
-            ShopTaxCode: "",
-        },
-        isActiveClassRequired: false,
-
-        errorMsg:"",
-        shopData: {
-
-        }
-        
-    }
-}, 
 computed: {
     shop(){
         return this.data
