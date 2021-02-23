@@ -13,35 +13,35 @@
                 <div class="shopDetails">
                     <div class="label" for="">Mã cửa hàng <Span>*</Span></div>
                     <input id="txtShopCode" name="ShopCode" ref="shopCode" tabindex="1" type="text" required
-                    @blur="validateData('ShopCode')"
-                    :class="{required: isActiveClassRequired.ShopCode}"
-                    v-model="shopData.ShopCode">
+                    @blur="validateData('shopCode')"
+                    :class="{required: isActiveClassRequired.shopCode}"
+                    v-model="shopData.shopCode">
                 </div>
                 <div class="shopDetails">
                     <div class="label" for="">Tên cửa hàng <Span>*</Span></div>
                     <input id="txtShopName"  name="ShopName" ref="shopName" tabindex="2" type="text" required
-                    @blur="validateData('ShopName')"
-                    :class="{required :isActiveClassRequired.ShopName}"
-                    v-model="shopData.ShopName">
+                    @blur="validateData('shopName')"
+                    :class="{required :isActiveClassRequired.shopName}"
+                    v-model="shopData.shopName">
                 </div>
                 <div class="shopDetails">
                     <div class="label" for="">Địa chỉ <Span>*</Span></div>
                     <textarea id="txtAddress" name="Address" ref="address" tabindex="3" rows="8" required
                     style="resize:none"
-                    @blur="validateData('ShopName')"
-                    :class="{required :isActiveClassRequired.ShopName}"
-                    v-model="shopData.Address"></textarea>
+                    @blur="validateData('address')"
+                    :class="{required :isActiveClassRequired.address}"
+                    v-model="shopData.address"></textarea>
                 </div>
                 <div class="shopDetails">
                     <div class="shopDetailsColumn">
                     <div class="label" for="">Số điện thoại</div>
                     <input tabindex="4" type="text"
-                    v-model="shopData.PhoneNumber">
+                    v-model="shopData.phoneNumber">
                     </div>
                      <div class="shopDetailsColumn">
                     <div class="label" for="">Mã số thuế</div>
                     <input tabindex="5" class="columnRight"  type="text"
-                    v-model="shopData.ShopTaxCode">
+                    v-model="shopData.shopTaxCode">
                     </div>
                 </div>
                 <div class="shopDetails">
@@ -95,9 +95,6 @@
                 <div class="btn-footer"> 
                 <button tabindex="13" id="btnCancel" class="btnDialog btnCancel" v-on:click="close"><div class="icon icon-cancel"></div>Hủy bỏ</button>
                 </div>
-                <div class="btn-footer">
-                    <button >checkRequire</button>
-                </div>
                 </div>
             </div>
         </div>
@@ -111,16 +108,16 @@ export default {
 
         return {
             shopData: {
-                ShopCode: "",
-                ShopName: "",
-                Address: "",
-                PhoneNumber: "",
-                ShopTaxCode: "",
+                shopCode: "",
+                shopName: "",
+                address: "",
+                phoneNumber: "",
+                shopTaxCode: "",
             },
             isActiveClassRequired: {
-                ShopCode: false,
-                ShopName: false,
-                Address: false
+                shopCode: false,
+                shopName: false,
+                address: false
             },
 
             errorMsg:""
@@ -159,16 +156,20 @@ export default {
             console.log(key)
             console.log(this.shopData[key])
             this.isActiveClassRequired[key] = true;
+            return false;
         } else {
             this.isActiveClassRequired[key] = false;
+            return true;
         }
     },
   
 
     Confirm : async function(){   
       console.log(this.shopData);
+
           var self = this;
-          if(this.checkRequire()==true){
+          if((self.validateData('shopCode') && self.validateData('shopName') && self.validateData('address'))==true){
+
               try {
                   await axios.post('https://localhost:44333/api/v1/Shop', this.shopData)
                     .then(function (res) {
@@ -184,52 +185,39 @@ export default {
               } catch (error) {
                   console.log(error);
               }
-
           }else{
-              this.isActiveClassRequired = true;
+              alert("Kiểm tra lại định dạng!");
           }
+
 
 
     },
     editConfirm : async function(){
         //Nếu chưa có shop được chọn đưa ra cảnh báo!
-            if(!this.shopData.shopId){
+        if(!this.shopData.shopId){
                 alert("Bạn chưa chọn shop chỉnh sửa!")
                 this.$emit("close");
-        }else
-        try {
-            await axios.put('https://localhost:44333/api/v1/Shop', this.shopData)
-            .then(function(res){
-                console.log(res);
-                alert("Cập nhật thành công!");
-            })
-            .catch(function(error){
-                console.log(error);
-                alert("Cập nhật thất bại!");
-            })
-            this.$emit("update");
-            
-        } catch (error) {
-            console.log (error);
+        }else if((this.validateData('shopCode') && this.validateData('shopName') && this.validateData('address'))==true){
+            try {
+                await axios.put('https://localhost:44333/api/v1/Shop', this.shopData)
+                .then(function(res){
+                    console.log(res);
+                    alert("Cập nhật thành công!");
+                })
+                .catch(function(error){
+                    console.log(error);
+                    alert("Cập nhật thất bại!");
+                })
+                this.$emit("update");
+                
+            } catch (error) {
+                console.log (error);
+            }
+        }else{
+            alert("Vui lòng kiểm tra lại định dạng");
         }
     },
-    checkRequire(){
-        var validate = true;
-        var shopCode = this.$refs.shopCode;
-        var shopName = this.$refs.shopName;
-        var address = this.$refs.address;
 
-        if(shopCode.value.length == 0){
-            validate = false;
-        }
-        if(shopName.value.length == 0){
-            validate = false;
-        }
-        if(address.value.length == 0){
-            validate = false;
-        }
-        return validate;
-    }
 
 },
 computed: {
