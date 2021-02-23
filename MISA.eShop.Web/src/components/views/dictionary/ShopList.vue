@@ -68,7 +68,7 @@
                     <td style="width: 240px">{{shp.shopName}}</td>
                     <td style="width: 500px">{{shp.address}}</td>
                     <td style="width: 140px">{{shp.phoneNumber}}</td>
-                    <td style="width: 105px">{{shp.status}}</td>
+                    <td style="width: 108px">{{shp.status}}</td>
                     </tr>
                     </tbody>
             </table>
@@ -138,7 +138,7 @@ export default {
     },
       btnAddOnClick(){
         this.showDialogDetail = true;
-        this.dialogMode = 'ADD'; 
+        this.dialogMode = 'ADD';
       },
       btnEditOnclick(){
         this.showDialogDetail = true;
@@ -167,7 +167,6 @@ export default {
         this.rowSelected_el = shopId;
       },
       deleteConfirm: async function(){
-        alert("Xóa thành công!");
         this.show = false;
         this.getData();
       },

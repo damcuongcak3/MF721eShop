@@ -37,17 +37,21 @@ props:{
         dialogDropClick(){
             this.$emit("update:active", false);
         },
-        deleteData(shopId){
+        deleteData: async function(shopId){
             var self = this;
             console.log(shopId);
-            axios.delete('https://localhost:44333/api/v1/Shop?shopId='+shopId)
-      .then(function(res){
-          console.log(res);
-          self.$emit("deleted")
-      }).catch(function(error){
-          console.log(error)
-      })
-      ;
+            try {
+                await axios.delete('https://localhost:44333/api/v1/Shop?shopId='+shopId)
+          .then(function(res){
+              console.log(res);
+              self.$emit("deleted")
+          }).catch(function(error){
+              console.log(error)
+          });
+                
+            } catch (error) {
+                console.log(error);
+            }
         }
     },
     data() {

@@ -1,7 +1,7 @@
 .menu {
   width: 235px;
   background-color: #026b97;
-  height: 100vh;
+  height: calc(100vh - 49px);
 }
 .menu-item {
   display: flex;

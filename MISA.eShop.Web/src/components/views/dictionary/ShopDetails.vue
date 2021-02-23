@@ -13,17 +13,20 @@
                 <div class="shopDetails">
                     <div class="label" for="">Mã cửa hàng <Span>*</Span></div>
                     <input id="txtShopCode" name="ShopCode" ref="shopCode" tabindex="1" type="text" required
-                    :class="{'required': !validateInput}" 
+                    :class="{required :isActiveClassRequired}"
                     v-model="shopData.shopCode">
                 </div>
                 <div class="shopDetails">
                     <div class="label" for="">Tên cửa hàng <Span>*</Span></div>
-                    <input id="txtShopName"  name="ShopName" ref="shopName" tabindex="2" type="text" required  
+                    <input id="txtShopName"  name="ShopName" ref="shopName" tabindex="2" type="text" required
+                    :class="{required :isActiveClassRequired}"
                     v-model="shopData.shopName">
                 </div>
                 <div class="shopDetails">
                     <div class="label" for="">Địa chỉ <Span>*</Span></div>
-                    <textarea id="txtAddress" name="Address" ref="address" tabindex="3" rows="8"
+                    <textarea id="txtAddress" name="Address" ref="address" tabindex="3" rows="8" required
+                    style="resize:none"
+                    :class="{required :isActiveClassRequired}"
                     v-model="shopData.address"></textarea>
                 </div>
                 <div class="shopDetails">
@@ -90,7 +93,7 @@
                 <button tabindex="13" id="btnCancel" class="btnDialog btnCancel" v-on:click="close"><div class="icon icon-cancel"></div>Hủy bỏ</button>
                 </div>
                 <div class="btn-footer">
-                    <button v-on:click="checkRequired()">validaeteeee</button>
+                    <button >checkRequire</button>
                 </div>
                 </div>
             </div>
@@ -103,10 +106,6 @@ export default {
     
     props: {
         // isHide: Boolean,
-        data: {
-            type: Object,
-            default: () => {},
-        },
         mode: String,
         shopParentData: Object
     },
@@ -132,62 +131,72 @@ export default {
       this.$emit('closePopup',true)
       // this.isHide = true;
     },
+  
 
-
-    validateInput: function(){
-        if (this.txtShopCode && this.txtShopName && this.txtAddress) {
-            return true;
-     }
-        if (!this.txtShopCode){
-            return false;
-        }
-        if(!this.txtShopName){
-            return false;
-
-        }
-        if(!this.txtAddress){
-            return false;
-        }        
-
-
-    },
     Confirm : async function(){   
       console.log(this.shopData);
-        var self = this;
-        try {
-            await axios.post('https://localhost:44333/api/v1/Shop', this.shopData)
-              .then(function (res) {
-                  console.log(res);
-                  alert("Thêm mới thành công");
-                  self.$emit("close"); 
-                  })
-              .catch(function (error) {   
+          var self = this;
+          if(this.checkRequire()==true){
+              try {
+                  await axios.post('https://localhost:44333/api/v1/Shop', this.shopData)
+                    .then(function (res) {
+                        console.log(res);
+                        alert("Thêm mới thành công");
+                        self.$emit("close"); 
+                        })
+                    .catch(function (error) {   
+                        console.log(error);
+                        alert("Thêm mới không thành công");
+                        });
+                  
+              } catch (error) {
                   console.log(error);
-                  alert("Thêm mới không thành công");
-                  });
-            
-        } catch (error) {
-            console.log(error);
-        }
+              }
+
+          }else{
+              this.isActiveClassRequired = true;
+          }
+
 
     },
     editConfirm : async function(){
-        console.log(this.shopData);
-        var rowSelected = this.$el.querySelector('.trSelected')
-        if(!rowSelected){
-            alert("Bạn chưa chọn shop chỉnh sửa!")
-            this.$emit("close");
+        //Nếu chưa có shop được chọn đưa ra cảnh báo!
+            if(!this.shopData.shopId){
+                alert("Bạn chưa chọn shop chỉnh sửa!")
+                this.$emit("close");
+        }else
+        try {
+            await axios.put('https://localhost:44333/api/v1/Shop', this.shopData)
+            .then(function(res){
+                console.log(res);
+                alert("Cập nhật thành công!");
+            })
+            .catch(function(error){
+                console.log(error);
+                alert("Cập nhật thất bại!");
+            })
+            this.$emit("update");
+            
+        } catch (error) {
+            console.log (error);
         }
-        await axios.put('https://localhost:44333/api/v1/Shop', this.shopData)
-        .then(function(res){
-            console.log(res);
-            alert("Cập nhật thành công!");
-        })
-        .catch(function(error){
-            console.log(error);
-            alert("Cập nhật thất bại!");
-        })
-        this.$emit("update");
+    },
+    checkRequire(){
+        var validate = true;
+        var shopCode = this.$refs.shopCode;
+        var shopName = this.$refs.shopName;
+        var address = this.$refs.address;
+
+        if(shopCode.value.length == 0){
+            validate = false;
+        }
+        if(shopName.value.length == 0){
+            validate = false;
+        }
+        if(address.value.length == 0){
+            validate = false;
+        }
+        return validate;
     }
 
 },
@@ -202,6 +211,8 @@ data() {
             PhoneNumber: "",
             ShopTaxCode: "",
         },
+        isActiveClassRequired: false,
+
         errorMsg:"",
         shopData: {
 
@@ -219,11 +230,11 @@ computed: {
 </script>
 <style scoped>
 input[required]{
-width: calc(100% - 100px);
+width: calc(100% - 110px);
     border-radius: 3px;
 
 }
-input{
+input{  
     width: 200px;
     border-radius: 3px;
 }
@@ -232,5 +243,6 @@ select{
 }
 .required{
     border-color: rgb(194, 1, 1);
+    width: 85%;
 }
 </style>

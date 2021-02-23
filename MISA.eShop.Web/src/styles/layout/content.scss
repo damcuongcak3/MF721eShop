@@ -1,9 +1,20 @@
+.main-content{
+  position: absolute;
+  width: calc(100% - 235px);
+  height: calc(100vh - 49px);
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  left: 235px;
+  top: 49px;
+}
 .body-content {
   padding: 15px 0px 0px 15px;
+  height: calc(100vh - 49px);
 }
 .table-content {
   overflow: scroll;
-  height: calc(100vh - 170px);
+  height: calc(100vh - 220px);
 }
 .footer-content {
   display: flex;
