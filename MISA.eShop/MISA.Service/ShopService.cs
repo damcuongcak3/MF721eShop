@@ -79,7 +79,7 @@ namespace MISA.Service
             //2.Validate dữ liệu không được phép trùng
             //ShopCode không được phép trùng
 
-            var isExits = dbContext.CheckShopCodeExits(shop.ShopCode);
+            var isExits = dbContext.CheckShopCodeExits(shop.ShopCode, shop.ShopId);
             if (isExits == true)
             {
                 errorMsg.UserMsg = MISA.Common.Properties.Resources.Error_Duplicates_ShopCode;
@@ -145,7 +145,7 @@ namespace MISA.Service
             //2.Validate dữ liệu không được phép trùng
             //ShopCode đã tồn tại
 
-            var isExits = dbContext.CheckShopCodeExits(shop.ShopCode);
+            var isExits = dbContext.CheckShopCodeExits(shop.ShopCode,shop.ShopId);
             if (isExits == true)
             {
                 errorMsg.UserMsg = MISA.Common.Properties.Resources.Error_Duplicates_ShopCode;
