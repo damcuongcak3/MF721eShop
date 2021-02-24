@@ -9,7 +9,6 @@
                 </div>
             </div>
             <div class="dialog-body">
-                <p v-for="error in errorMsg" :key="error.errorMsg">{{error}}</p>
                 <div class="shopDetails">
                     <div class="label" for="">Mã cửa hàng <Span>*</Span></div>
                     <input id="txtShopCode" name="ShopCode" ref="shopCode" tabindex="1" type="text" required
@@ -118,14 +117,10 @@ export default {
                 shopCode: false,
                 shopName: false,
                 address: false
-            },
-
-            errorMsg:""
-            
+            },            
         }
     }, 
     props: {
-        // isHide: Boolean,
         mode: String,
         shopParentData: Object
     },
@@ -138,19 +133,29 @@ export default {
     },
 
     methods: {
-        close() {
+        /* Đóng dialog */
+    close() {
             this.$emit('close');
         },
     focusInput(){
         this.$refs.shopCode.focus();
     },
     btnAddOnClick() {
-      //this.isHide = false;
+        /** 
+      this.isHide = false;
+      */
     },
     btnCancelOnClick() {
       this.$emit('closePopup',true)
-      // this.isHide = true;
     },
+    /**
+     * Hàm kiểm tra dữ liệu bắt buộc nhập!
+     * key: trường thông tin cần validate
+     * isActiveClassRequired: trạng thái để bật tắt class required. True: bật, false: tắt
+     * <Return>False: trống
+     * true: Ok</Return>
+     * CreatedBy: DvCuong (20/02/2021)
+     */
     validateData(key) {
         if (this.shopData[key] === null || this.shopData[key] === "") {
             console.log(key)
@@ -164,10 +169,15 @@ export default {
     },
   
 
+/**
+ * Function thêm mới dữ liệu
+ * CreatedBy: DvCuong (20/02/2021)
+ */
     Confirm : async function(){   
       console.log(this.shopData);
 
           var self = this;
+          //Validate dữ liệu Ok thì mới thực hiện thêm dữ liệu
           if((self.validateData('shopCode') && self.validateData('shopName') && self.validateData('address'))==true){
 
               try {
@@ -192,11 +202,16 @@ export default {
 
 
     },
+    /**
+     * Function thực hiện chỉnh sửa dữ liệu
+     * CreatedBy: DvCuong(20/02/2021)
+     */
     editConfirm : async function(){
-        //Nếu chưa có shop được chọn đưa ra cảnh báo!
+        /* Nếu chưa có shop được chọn đưa ra cảnh báo! */
         if(!this.shopData.shopId){
                 alert("Bạn chưa chọn shop chỉnh sửa!")
                 this.$emit("close");
+                /* Validate các trường dữ liệu bắt buộc, Nếu không trống thì cho phép sửa, trống:đưa ra câu cảnh báo */
         }else if((this.validateData('shopCode') && this.validateData('shopName') && this.validateData('address'))==true){
             try {
                 await axios.put('https://localhost:44333/api/v1/Shop', this.shopData)

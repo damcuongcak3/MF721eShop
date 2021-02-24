@@ -46,7 +46,7 @@
                          <input type="text" class="filter filterPhoneNumber" id="filterPhoneNumber">
                        </th>
                        <th class="row">
-                         <select name="" id="">
+                         <select name="" id="" style="height: 40px; width: 90%;">
                            <option value="1">Đang hoạt động</option>
                          </select>
                        </th>
@@ -127,6 +127,10 @@ export default {
       };
     },
   methods: {
+    /**
+     * Hàm get dữ liệu bảng ghi.
+     * 
+     */
     async getData(){
       const response = await axios.get("https://localhost:44333/api/v1/Shop");     
       this.shops = response.data;
@@ -150,12 +154,13 @@ export default {
         }
       },
       btnDeleteOnClick(){
-        this.$refs.DeleteDialog.show();
+        console.log(this);
         var rowSelected = this.$el.querySelector('.trSelected')
         if(!rowSelected){
         alert("Bạn chưa chọn shop cần xóa!")
         this.$refs.DeleteDialog.hide();
         }
+        this.$refs.DeleteDialog.show();
       },
       closePopup(value){
         this.isHideParent = value;
@@ -170,21 +175,6 @@ export default {
         this.show = false;
         this.getData();
       },
-      updateShop : async function(){
-        var rowSelected = this.$el.querySelector('.trSelected')
-        if(!rowSelected){
-            alert("Bạn chưa chọn shop chỉnh sửa!")
-            return
-        }
-        var shopId = rowSelected.getAttribute('id-selected')
-        try {
-          var res = await axios.get(`https://localhost:44333/api/v1/Shop/${shopId}`)
-          console.log(res.data)
-        } catch (error) {
-          console.log(error)
-        }
-        this.showDialogDetail = true;
-    }
 
       
      }, 

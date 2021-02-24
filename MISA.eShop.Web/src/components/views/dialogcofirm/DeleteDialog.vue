@@ -29,6 +29,13 @@
 <script>
 import * as axios from "axios";        
 export default {
+    data() {
+        return {
+            visible:false,
+
+        }
+        
+    },
 props:{
     active:{type: Boolean, default: false},
     shopParentData: Object
@@ -52,11 +59,6 @@ props:{
             } catch (error) {
                 console.log(error);
             }
-        }
-    },
-    data() {
-        return {
-            visible:false,
         }
     },
     

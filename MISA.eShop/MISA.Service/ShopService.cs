@@ -8,15 +8,14 @@ namespace MISA.Service
 {
     public class ShopService
     {
-        //public ServiceResult GetShops()
-        //{
-        //    var serviceResult = new ServiceResult();
-        //    var dbContext = new ShopRepository();
-        //    serviceResult.Success = true;
-        //    serviceResult.Data = dbContext.GetData<Shop>();
-        //    //serviceResult.Data = dbContext.GetData<Shop>($"Proc_GetShopByParameter", new { ShopCodeContains = "ZCTX444" });
-        //    return serviceResult;
-        //}
+
+
+        /// <summary>
+        /// Lấy danh sách cửa hàng
+        /// </summary>
+        /// <param name="shopId">Id cửa hàng cần lấy dữ, nếu shopId trống hoặc bằng null thì lấy tất cả dữ liệu</param>
+        /// <returns>Trả về trạng thái Service</returns>
+        /// CreatedBy DvCuong (23/02/2021)
         public ServiceResult GetShops(Guid? shopId=null)
         {
             var newID = new Guid();

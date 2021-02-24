@@ -51,6 +51,7 @@ namespace MISA.eShopApi.Controllers
                 return StatusCode(200, res.Data);
             }
         }
+  
         [HttpPut]
         public IActionResult Put(Shop shop)
         {
