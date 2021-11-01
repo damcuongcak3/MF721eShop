@@ -3,4 +3,6 @@
 //change text
 change text new36, test new
 chang3e text new
+
 git checkout 1
+change text checkout 2
